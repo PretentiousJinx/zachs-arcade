@@ -3,7 +3,7 @@ function ContactScreen() {
     <main>
 
       <h1>Contact Me</h1>
-      
+
       <p>You can reach me at:</p>
       <nav>
         <ul>
@@ -16,9 +16,8 @@ function ContactScreen() {
       <nav>
         <ul>
           <li><a href="#/home">Home</a></li>
-          <li><a href="#/games">Games</a></li>
           <li><a href="#/resume">Resume</a></li>
-          <li><a href="#/contact">Contact</a></li>
+          <li><a href="#/games">Games</a></li>
         </ul>
       </nav>
 

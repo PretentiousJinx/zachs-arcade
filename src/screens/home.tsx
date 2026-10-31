@@ -8,10 +8,9 @@ function HomeScreen() {
       <p>Reach the other pages here:</p>
       <nav>
         <ul>
-          <li><a href="#/home">Home</a></li>
-          <li><a href="#/games">Games</a></li>
           <li><a href="#/resume">Resume</a></li>
           <li><a href="#/contact">Contact</a></li>
+          <li><a href="#/games">Games</a></li>
         </ul>
       </nav>
 
