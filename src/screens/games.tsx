@@ -3,10 +3,14 @@ function GameScreen() {
     <main>
       <h1>Welcome to my Arcade</h1>
       <p>This is where you can find my passion.</p>
-      <a href="#/">Back to main menu</a>
-      <a href="#/HomeScreen">Home</a>
-      <a href="#/ResumeScreen">Resume</a>
-      <a href="#/ContactScreen">Contact</a>
+      <nav>
+        <ul>
+          <li><a href="#/home">Home</a></li>
+          <li><a href="#/games">Games</a></li>
+          <li><a href="#/resume">Resume</a></li>
+          <li><a href="#/contact">Contact</a></li>
+        </ul>
+      </nav>
     </main>
   );
 }

@@ -3,12 +3,19 @@ function HomeScreen() {
     <main>
       <h1>Welcome to the Home Screen</h1>
       <p>This is the main landing page of the application.
-        About me goes here.
+        <br/>About me goes here.
       </p>
-      <a href="#/">Back to main menu</a>
-      <a href="#/GameScreen">Games</a>
-      <a href="#/ResumeScreen">Resume</a>
-      <a href="#/ContactScreen">Contact</a>
+      <p>Reach the other pages here:</p>
+      <nav>
+        <ul>
+          <li><a href="#/home">Home</a></li>
+          <li><a href="#/games">Games</a></li>
+          <li><a href="#/resume">Resume</a></li>
+          <li><a href="#/contact">Contact</a></li>
+        </ul>
+      </nav>
+
+
     </main>
   );
 }
