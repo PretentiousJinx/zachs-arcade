@@ -15,6 +15,7 @@ function ContactScreen() {
       <p>Get in touch with me!</p>
       <nav>
         <ul>
+          <li><a href="#/">Back to Main Menu</a></li>
           <li><a href="#/home">Home</a></li>
           <li><a href="#/resume">Resume</a></li>
           <li><a href="#/games">Games</a></li>

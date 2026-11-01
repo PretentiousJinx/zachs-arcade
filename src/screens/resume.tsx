@@ -6,6 +6,7 @@ function ResumeScreen() {
         and learn more about my experience and skills.</p>
       <nav>
         <ul>
+          <li><a href="#/">Back to Main Menu</a></li>
           <li><a href="#/home">Home</a></li>
           <li><a href="#/contact">Contact</a></li>
           <li><a href="#/games">Games</a></li>

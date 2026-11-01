@@ -1,17 +1,43 @@
+import HomeScreen from './screens/home';
+import GameScreen from './screens/games';
+import ResumeScreen from './screens/resume';
+import ContactScreen from './screens/contact';
+import MenuScreen from './screens/Menu';
+import { useState, useEffect } from 'react';
+
 function App() {
 
-    return (
-        <main>
-            <h1>Welcome to My Arcade</h1>
-            <nav>
-                <ul>
-                    <li><a href="#/home">Home</a></li>
-                    <li><a href="#/contact">Contact Me</a></li>
-                    <li><a href="#/resume">Resume</a></li>
-                    <li><a href="#/games">Games</a></li>
-                </ul>
-            </nav>
-        </main>        
-    )
+    const [hash, setHash] = useState(window.location.hash);
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            setHash(window.location.hash);
+        };
+
+        window.addEventListener('hashchange', handleHashChange);
+
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+        };
+    }, []);
+
+    if (hash === '#/home') {
+        return <HomeScreen />;
+    }
+
+    if (hash === '#/resume') {
+        return <ResumeScreen />;
+    }
+
+    if (hash === '#/contact') {
+        return <ContactScreen />;
+    }
+
+    if (hash === '#/games') {
+        return <GameScreen />;
+    }
+
+    return <MenuScreen />;
+
 }
 export default App

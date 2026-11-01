@@ -1,0 +1,9 @@
+.selected {
+  list-style: none;
+  background-color: #ff3ea5;
+  padding: 10px 20px;
+  color: #120624;
+  border-left: 4px solid #007bff;
+  position: relative;
+  cursor: pointer;
+}
