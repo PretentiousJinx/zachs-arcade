@@ -45,8 +45,10 @@ function MenuScreen() {
     }, [selected]);
 
     return (
-        <main>
-            <h1>Welcome to My Arcade</h1>
+        <main className="cabinet">
+            <div className="marquee">Zach's Arcade</div>
+            <div className="screen">
+            <h1>SELECT STAGE</h1>
             <nav>
                 <ul>
                     {OPTIONS.map((option, index) => (
@@ -56,6 +58,7 @@ function MenuScreen() {
                                 onFocus={() => setSelected(index)}
                                 onMouseEnter={() => setSelected(index)}
                                 >
+                                <span className="cursor" aria-hidden="true">{index === selected ? '► ' : ' '}</span>
                                 {option.label}
                             </a>
                             
@@ -63,6 +66,7 @@ function MenuScreen() {
                     ))}
                 </ul>
             </nav>
+            </div>
         </main>        
     )
 }

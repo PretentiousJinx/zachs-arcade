@@ -1,9 +1,101 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #1a0838;
+  --pink: #ff3ea5;
+  --cyan: #3ef0ff;
+  --yellow: #ffe14a;
+  --ink: #e8e6ff;
+  --dark: #120624;
+
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: 'VT323', monospace;
+  margin: 0;
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .selected {
-  list-style: none;
-  background-color: #ff3ea5;
-  padding: 10px 20px;
-  color: #120624;
-  border-left: 4px solid #007bff;
+  background-color: var(--pink);
+  color: var(--dark);
   position: relative;
   cursor: pointer;
+}
+
+.selected .cursor {
+  visibility: visible;
+}
+
+.cabinet {
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--dark);
+  border: 5px solid var(--pink);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 20px var(--pink);
+}
+
+.marquee {
+  width: 100%;
+  font-family: 'Press Start 2P', monospace;
+  color: var(--yellow);
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 32px;
+  text-shadow: 0 0 12px var(--pink);
+  margin-bottom: 20px;
+}
+
+.screen {
+  width: 100%;
+  min-height: 300px;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--dark);
+  border: 2px solid var(--pink);
+  border-radius: 10px;
+  box-shadow: inset 0 0 20px var(--pink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen a {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+  padding: 10px 20px;
+}
+
+ul {
+  font-family: 'Press Start 2P', monospace;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.screen h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 24px;
+  color: var(--cyan);
+  margin: 0;
+}
+
+.cursor {
+  visibility: hidden;
 }
