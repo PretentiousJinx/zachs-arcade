@@ -21,6 +21,21 @@ function App() {
         };
     }, []);
 
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                window.location.hash = '#/';
+            }
+        };
+
+        window.addEventListener('keydown', handleEscape);
+
+        return () => {
+            window.removeEventListener('keydown', handleEscape);
+        };
+        
+    }, []);
+
     if (hash === '#/home') {
         return <HomeScreen />;
     }
