@@ -58,7 +58,7 @@ function MenuScreen() {
                                 onFocus={() => setSelected(index)}
                                 onMouseEnter={() => setSelected(index)}
                                 >
-                                <span className="cursor" aria-hidden="true">{index === selected ? '► ' : ' '}</span>
+                                <span className="cursor" aria-hidden="true">► </span>
                                 {option.label}
                             </a>
                             
@@ -67,6 +67,18 @@ function MenuScreen() {
                 </ul>
             </nav>
             </div>
+
+            <div className="controls" aria-hidden="true">
+                <div className="joystick"></div>
+                <div className="buttons">
+                    <span className="btn yellow"></span>
+                    <span className="btn pink"></span>
+                    <span className="btn cyan"></span>
+                </div>
+            </div>
+
+            <div className="coin-door" aria-hidden="true">INSERT COIN</div>
+
         </main>        
     )
 }
