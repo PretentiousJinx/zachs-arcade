@@ -22,6 +22,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: 
+    radial-gradient(ellipse at center, transparent 40%, rgba(5, 1, 13, 0.85) 100%),
+    url('/carpet.svg');
+  background-size: auto, 400px;
 }
 
 .selected {
@@ -34,7 +38,6 @@ body {
 .selected .cursor {
   visibility: visible;
 }
-
 .cabinet {
   width: 100%;
   max-width: 600px;

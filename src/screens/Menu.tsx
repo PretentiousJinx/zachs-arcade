@@ -69,7 +69,10 @@ function MenuScreen() {
             </div>
 
             <div className="controls" aria-hidden="true">
-                <div className="joystick"></div>
+                <div className="joystick">
+                    <div className="stick"></div>
+                    <div className="ball"></div>
+                </div>
                 <div className="buttons">
                     <span className="btn yellow"></span>
                     <span className="btn pink"></span>
