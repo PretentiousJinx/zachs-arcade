@@ -1,6 +1,8 @@
+import ScreenFrame from "../components/ScreenFrame";
+
 function ContactScreen() {
   return (
-    <main>
+    <ScreenFrame title="CONTACT">
 
       <h1>Contact Me</h1>
 
@@ -13,16 +15,7 @@ function ContactScreen() {
       </nav>
 
       <p>Get in touch with me!</p>
-      <nav>
-        <ul>
-          <li><a href="#/">Back to Main Menu</a></li>
-          <li><a href="#/home">Home</a></li>
-          <li><a href="#/resume">Resume</a></li>
-          <li><a href="#/games">Games</a></li>
-        </ul>
-      </nav>
-
-    </main>
+    </ScreenFrame>
   );
 }
 export default ContactScreen;
