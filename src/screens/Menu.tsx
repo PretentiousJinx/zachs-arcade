@@ -70,8 +70,8 @@ function MenuScreen() {
 
             <div className="controls" aria-hidden="true">
                 <div className="joystick">
-                    <div className="stick"></div>
                     <div className="ball"></div>
+                    <div className="stick"></div>
                 </div>
                 <div className="buttons">
                     <span className="btn yellow"></span>
@@ -80,7 +80,13 @@ function MenuScreen() {
                 </div>
             </div>
 
-            <div className="coin-door" aria-hidden="true">INSERT COIN</div>
+            <div className="coin-door" aria-hidden="true">
+                <div className="slots">
+                    <span className="slot"></span>
+                    <span className="slot"></span>
+                </div>
+                INSERT COIN
+            </div>
 
         </main>        
     )
