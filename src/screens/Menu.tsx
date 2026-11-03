@@ -11,6 +11,7 @@ function MenuScreen() {
 
     // Remember selected option in state and highlight it in the menu
     const [selected, setSelected] = useState(0);
+    const [tilt, setTilt] = useState<'up' | 'down' | null>(null);
 
     useEffect(() => {
         const handleKey = (event: KeyboardEvent) => {
@@ -19,6 +20,7 @@ function MenuScreen() {
                 event.preventDefault();
                 // Handle up arrow key press to move selection up
                 setSelected((prev) => (prev > 0 ? prev - 1 : OPTIONS.length - 1));
+                setTilt('up');
 
             } 
             else if (event.key === 'ArrowDown') {
@@ -26,7 +28,7 @@ function MenuScreen() {
                 event.preventDefault();
                 // Handle down arrow key press to move selection down
                 setSelected((prev) => (prev < OPTIONS.length - 1 ? prev + 1 : 0));
-
+                setTilt('down');
             }
             else if (event.key === 'Enter') {
 
@@ -37,10 +39,18 @@ function MenuScreen() {
             }
         };
 
+        const handleKeyUp = (event: KeyboardEvent) => {
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                setTilt(null);
+            }
+        };
+
         window.addEventListener('keydown', handleKey);
+        window.addEventListener('keyup', handleKeyUp);
 
         return () => {
             window.removeEventListener('keydown', handleKey);
+            window.removeEventListener('keyup', handleKeyUp);
         };
     }, [selected]);
 
@@ -61,24 +71,25 @@ function MenuScreen() {
                                 <span className="cursor" aria-hidden="true">► </span>
                                 {option.label}
                             </a>
-                            
                         </li>
                     ))}
                 </ul>
             </nav>
             </div>
 
-            <div className="controls" aria-hidden="true">
-                <div className="joystick">
+        <div className="controls" aria-hidden="true">
+            <div className={`joystick ${tilt ? 'tilt-' + tilt : ''}`}>
+                <div className="lever">
                     <div className="ball"></div>
                     <div className="stick"></div>
                 </div>
-                <div className="buttons">
-                    <span className="btn yellow"></span>
-                    <span className="btn pink"></span>
-                    <span className="btn cyan"></span>
-                </div>
             </div>
+            <div className="buttons">
+                <span className="btn yellow"></span>
+                <span className="btn pink"></span>
+                <span className="btn cyan"></span>
+            </div>
+        </div>
 
             <div className="coin-door" aria-hidden="true">
                 <div className="slots">

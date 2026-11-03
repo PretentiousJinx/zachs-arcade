@@ -120,7 +120,15 @@ ul {
   align-items: center;
 }
 
-.joystick .ball {
+.joystick .lever {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: bottom center;
+  transition: transform 0.08s;
+}
+
+.joystick .lever .ball {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -129,7 +137,7 @@ ul {
   z-index: 1;
 }
 
-.joystick .stick {
+.joystick .lever .stick {
   width: 10px;
   height: 36px;
   margin-top: -8px;
@@ -143,6 +151,14 @@ ul {
   margin-top: -6px;
   border-radius: 50%;
   background-color: #0a0414;
+}
+
+.tilt-up .lever {
+  transform: perspective(200px) rotateX(40deg);
+}
+
+.tilt-down .lever {
+  transform: perspective(200px) rotateX(-40deg);
 }
 
 .buttons {
