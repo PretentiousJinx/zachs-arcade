@@ -31,7 +31,7 @@ export async function POST(request: Request) {
         return Response.json({ error: 'Request body must be an object' }, { status: 400 });
     }
 
-    const { name, email, message } = body;
+    const { name, email, message, token } = body as Record<string, unknown>;
 
     // 1. Name Validation
     if (typeof name !== 'string' || name.trim() === '' || name.length > 100) {
@@ -48,6 +48,26 @@ export async function POST(request: Request) {
         return Response.json({
             error: 'Message is required and must be under 5,000 characters'
         }, { status: 400 });
+    }
+
+    // 4. Captcha
+    if (typeof token !== 'string' || token === '') {
+        return Response.json({ error: 'Please complete the captcha and prove your not a robot'}, { status: 400});
+    }
+
+    const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            secret: process.env.TURNSTILE_SECRET_KEY,
+            response: token,
+        }),
+    });
+
+    const outcome = await verification.json();
+
+    if (!outcome.success) {
+        return Response.json({ error: 'Captcha check failed. Please do not try again, robot'}, { status: 403 });
     }
 
     const cleanName = name.replace(/[\r\n]/g, ' ').trim();
