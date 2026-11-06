@@ -23,6 +23,11 @@ function App() {
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
+            const target = event.target as HTMLElement;
+            if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
             if (event.key === 'Escape') {
                 window.location.hash = '#/';
             }
