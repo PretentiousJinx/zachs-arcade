@@ -90,9 +90,30 @@ body {
 }
 
 .screen a.back:hover {
-  color: var(--yellow);}
+  color: var(--yellow);
+}
+
+.screen-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.screen a.download {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--pink);
+  padding: 0;
+}
+
+.screen a.download:hover {
+  color: var(--yellow);
+}
 
 .screen--content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink) transparent;
   width: 100%;
   max-height: 60vh;
   overflow-y: auto;
@@ -101,6 +122,33 @@ body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+}
+
+@supports select(::webkit-scrollbar) {
+  .screen--content {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+}
+
+.screen--content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.screen--content::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 14px 0;
+}
+
+.screen--content::-webkit-scrollbar-thumb {
+  background-color: var(--pink);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+
+.screen--content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--cyan);
 }
 
 .screen--content p {
@@ -199,6 +247,49 @@ ul {
   font-size: 24px;
   font-family: 'Press Start 2P', monospace;
   line-height: 1.6;
+}
+
+.resume-headline {
+  color: var(--cyan);
+}
+
+.resume-section {
+  margin-top: 24px;
+}
+
+.resume-section h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--yellow);
+  margin: 0 0 12px;
+}
+
+.job {
+  margin-bottom: 20px;
+}
+
+.job h3 {
+  font-family: 'VT323', monospace;
+  font-size: 26px;
+  color: var(--pink);
+  margin: 0;
+}
+
+.job-meta {
+  color: #9d97c7;
+}
+
+.resume-section ul {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  list-style: square;
+  padding-left: 24px;
+  max-width: none;
+  display: block;
+}
+
+.resume-section li {
+  margin-bottom: 6px;
 }
 
 .cursor {

@@ -63,14 +63,14 @@ function ContactScreen() {
               <Turnstile
               ref={turnstileRef}
               siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-              options={{ theme: 'dark' }}
+              options={{ theme: 'dark', appearance: 'interaction-only' }}
               onSuccess={setToken}
               onExpire={() => setToken(null)}
               onError={() => setToken(null)}
               />
 
               <button type="submit" disabled={status === 'sending' || !token}>
-                  {status === 'sending' ? 'SENDING...' : 'SEND'}
+                  {status === 'sending' ? 'SENDING...' : !token ? 'VERIFYING...' : 'SEND'}
               </button>
 
               {status === 'error' && (
