@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
     // 4. Captcha
     if (typeof token !== 'string' || token === '') {
-        return Response.json({ error: 'Please complete the captcha and prove your not a robot'}, { status: 400});
+        return Response.json({ error: 'Please complete the captcha and prove you are not a robot'}, { status: 400});
     }
 
     const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
     const outcome = await verification.json();
 
     if (!outcome.success) {
-        return Response.json({ error: 'Captcha check failed. Please do not try again, robot'}, { status: 403 });
+        return Response.json({ error: 'Captcha check failed. Please do not try again, if you are a robot that is.'}, { status: 403 });
     }
 
     const cleanName = name.replace(/[\r\n]/g, ' ').trim();

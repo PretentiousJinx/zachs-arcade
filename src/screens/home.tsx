@@ -3,7 +3,7 @@ import ScreenFrame from "../components/ScreenFrame";
 function HomeScreen() {
   return (
     <ScreenFrame title="Home">
-      <p>Welcome to my professional portfolio. My name is Zachary, and I am a software developer with the FBI.
+      <p>Welcome to my professional portfolio. My name is Zachary, and I am a Senior Systems Engineer for the FBI aspiring to be a software developer.
         I hold an active CISSP certification, a bachelor’s degree in Computer Science, 
         and am currently pursuing my Master’s degree. 
         Over the course of my nine-year career in Information Technology, 

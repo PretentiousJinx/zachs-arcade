@@ -111,4 +111,5 @@ export const EDUCATION: string[] = [
     'CISSP, 2026',
     'CompTIA Security+ CE',
     'Active TS/SCI',
+    'M.S., Computer Science, (In-progess)'
 ];
