@@ -3,6 +3,7 @@ import GameScreen from './screens/games';
 import ResumeScreen from './screens/resume';
 import ContactScreen from './screens/contact';
 import MenuScreen from './screens/Menu';
+import PlayScreen from './screens/play';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -51,6 +52,11 @@ function App() {
 
     if (hash === '#/contact') {
         return <ContactScreen />;
+    }
+
+    if (hash.startsWith('#/games/')) {
+        const gameId = hash.slice('#/games/'.length);
+        return <PlayScreen gameId={gameId} />;
     }
 
     if (hash === '#/games') {
