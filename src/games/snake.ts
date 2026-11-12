@@ -16,9 +16,17 @@ export function createSnake(): Game {
     let direction: Cell = { x: 1, y: 0 };
     let timer = 0;
     let alive = true;
+    let turns: Cell[] = [];
 
 
     function step() {
+        const next = turns.shift();
+        if (next) {
+            const isReverse = next.x === -direction.x && next.y === -direction.y;
+            if (!isReverse) {
+                direction = next;
+            }
+        }
         const head = snake[0];
         let newHead = { x: head.x + direction.x, y: head.y + direction.y};
         const hitWall =
@@ -26,8 +34,11 @@ export function createSnake(): Game {
             newHead.x >= COLS ||
             newHead.y < 0 ||
             newHead.y >= ROWS;
+
+            const hitSelf = snake.some(
+                (cell) => cell.x === newHead.x && cell.y === newHead.y);
         
-            if (hitWall) {
+            if (hitWall || hitSelf) {
             alive = false;
             return;
         }
@@ -44,16 +55,16 @@ export function createSnake(): Game {
 
             input.pressed.forEach((key) => {
                 if (key === 'ArrowUp') {
-                    direction = { x: 0, y: -1};
+                    turns.push({ x: 0, y: -1});
                 }
                 if (key === 'ArrowDown') {
-                    direction = { x: 0, y: 1 };
+                    turns.push({ x: 0, y: 1});
                 }
                 if (key === 'ArrowRight') {
-                    direction = { x: 1, y: 0 };
+                    turns.push({ x: 1, y: 0});
                 }
                 if (key === 'ArrowLeft') {
-                    direction = { x: -1, y: 0 };
+                    turns.push({ x: -1, y: 0});
                 };
 
             });
