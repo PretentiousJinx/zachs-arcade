@@ -15,10 +15,22 @@ export function createSnake(): Game {
     ];
     let direction: Cell = { x: 1, y: 0 };
     let timer = 0;
+    let alive = true;
+
 
     function step() {
         const head = snake[0];
         let newHead = { x: head.x + direction.x, y: head.y + direction.y};
+        const hitWall =
+            newHead.x < 0 ||
+            newHead.x >= COLS ||
+            newHead.y < 0 ||
+            newHead.y >= ROWS;
+        
+            if (hitWall) {
+            alive = false;
+            return;
+        }
         snake.unshift(newHead);
         snake.pop();
     }
@@ -28,6 +40,7 @@ export function createSnake(): Game {
         height: ROWS * CELL,
     
         update(dt: number, input: Input) {
+            if (!alive) return;
 
             input.pressed.forEach((key) => {
                 if (key === 'ArrowUp') {
@@ -41,20 +54,21 @@ export function createSnake(): Game {
                 }
                 if (key === 'ArrowLeft') {
                     direction = { x: -1, y: 0 };
-                }
-                
-                timer += dt;
-                while (timer >= STEP_TIME) {
-                    timer -= STEP_TIME;
-                    step();
                 };
+
             });
+
+            timer += dt;
+            while (timer >= STEP_TIME) {
+                timer -= STEP_TIME;
+                step();
+            }
         },
 
         draw(ctx: CanvasRenderingContext2D) {
             ctx.fillStyle = "#0d0221";
             ctx.fillRect(0, 0, COLS * CELL, ROWS * CELL);
-            ctx.fillStyle = "#ff2e97";
+            ctx.fillStyle = alive? "#ff2e97" : '#666666';
             snake.forEach((cell) => {
                 ctx.fillRect(cell.x * CELL, cell.y * CELL, CELL - 1, CELL - 1);
             })
