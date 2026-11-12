@@ -7,7 +7,7 @@ export type Game = {
 };
 
 export const GAMES: Game[] = [
-    { id: 'snake', name: 'Neon Noodle', inspiredBy: 'Snake', description: 'Eat the glowing pellets and grow without biting your own tail.', ready: true },
+    { id: 'snake', name: 'Data Wyrm', inspiredBy: 'Snake', description: 'Eat the glowing pellets and grow without biting your own tail.', ready: true },
     { id: 'bricks', name: 'Brick Blitz', inspiredBy: 'Breakout', description: 'Bounce the ball and smash every brick in the wall.', ready: false },
     { id: 'stack', name: 'Neon Stack', inspiredBy: 'Tetris', description: 'Fit the falling shapes together and clear full rows.', ready: false },
     { id: 'rocks', name: 'Rock Buster', inspiredBy: 'Asteroids', description: 'Steer, thrust and blast drifting space rocks into pieces.', ready: false },

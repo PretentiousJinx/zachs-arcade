@@ -158,6 +158,18 @@ body {
   line-height: 1.4;
 }
 
+.screen--content:has(.game-canvas) {
+  max-height: none;
+}
+
+.game-canvas {
+  display: block;
+  align-self: center;
+  max-width: 100%;
+  max-height: max(240px, calc(100vh - 300px));
+  image-rendering: pixelated;
+}
+
 ul {
   font-family: 'Press Start 2P', monospace;
   list-style: none;
@@ -427,8 +439,4 @@ ul {
   background: #ff8a3d;
   border-radius: 2px;
   box-shadow: 0 0 8px #ff8a3d;
-}
-
-.game-canvas {
-  
 }

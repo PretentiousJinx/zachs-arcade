@@ -1,7 +1,7 @@
 import ScreenFrame from "../components/ScreenFrame";
 import { GAMES } from "../data/games"
 import GameCanvas from "../components/GameCanvas";
-import { createDemo } from "../games/demo";
+import { createSnake } from "../games/snake";
 
 type PlayScreenProps = {
     gameId: string;
@@ -20,7 +20,7 @@ function PlayScreen({ gameId }: PlayScreenProps) {
 
     return (
         <ScreenFrame title={game.name} backHref="#/games">
-            <GameCanvas createGame={ createDemo } />
+            <GameCanvas createGame={ createSnake } />
         </ScreenFrame>
     )
 }
