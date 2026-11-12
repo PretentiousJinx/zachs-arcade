@@ -18,6 +18,21 @@ export function createSnake(): Game {
     let alive = true;
     let turns: Cell[] = [];
 
+    function placeFood(): Cell {
+        while (true) {
+            const spot = {
+                x: Math.floor(Math.random() * COLS),
+                y: Math.floor(Math.random() * ROWS),
+            };
+            const onSnake = snake.some((cell) => cell.x === spot.x && cell.y === spot.y);
+            if (!onSnake) {
+                return spot;
+            }
+        }
+    }
+
+    let food = placeFood();
+    let score = 0;
 
     function step() {
         const next = turns.shift();
@@ -43,7 +58,14 @@ export function createSnake(): Game {
             return;
         }
         snake.unshift(newHead);
-        snake.pop();
+
+        if (newHead.x === food.x ) {
+            score += 1;
+            food = placeFood();
+        }
+        else {
+            snake.pop();
+        }
     }
 
     return {
@@ -83,6 +105,14 @@ export function createSnake(): Game {
             snake.forEach((cell) => {
                 ctx.fillRect(cell.x * CELL, cell.y * CELL, CELL - 1, CELL - 1);
             })
+
+            ctx.fillStyle = "#3ef0ff";
+            ctx.fillRect(food.x * CELL, food.y * CELL, CELL - 1, CELL - 1 );
+
+            ctx.fillStyle = "#ffe14d";
+            ctx.font = '12px "Press Start 2P"';
+            ctx.textBaseline = 'top';
+            ctx.fillText(`SCORE ${score}`, 8, 8)
         },
     };
 }
