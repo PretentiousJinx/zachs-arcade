@@ -59,7 +59,7 @@ export function createSnake(): Game {
         }
         snake.unshift(newHead);
 
-        if (newHead.x === food.x ) {
+        if (newHead.x === food.x && newHead.y === food.y) {
             score += 1;
             food = placeFood();
         }
