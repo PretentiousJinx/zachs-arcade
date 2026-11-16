@@ -1,9 +1,15 @@
-import type { Game, Input } from './types';
+import type { Game, Input, Action } from './types';
 
 const COLS = 20;
 const ROWS = 20;
 const CELL = 20;
 const STEP_TIME = 0.12;
+const DIRECTIONS: Partial<Record<Action, Cell>> = {
+    up: { x: 0, y: -1 },
+    down: { x: 0, y: 1 },
+    left: { x: -1, y: 0 },
+    right: { x: 1, y: 0 },
+};
 
 type Cell = { x: number; y: number };
 
@@ -13,8 +19,8 @@ export function createSnake(): Game {
         { x: 9, y: 10 },
         { x: 8, y: 10 },
     ];
-    let direction: Cell = { x: 1, y: 0 };
     let timer = 0;
+    let direction = { x: 1, y: 0 };
     let alive = true;
     const turns: Cell[] = [];
 
@@ -77,20 +83,10 @@ export function createSnake(): Game {
         update(dt: number, input: Input) {
             if (!alive) return;
 
-            input.pressed.forEach((key) => {
-                if (turns.length < 3) {
-                    if (key === 'ArrowUp') {
-                        turns.push({ x: 0, y: -1 });
-                    }
-                    if (key === 'ArrowDown') {
-                        turns.push({ x: 0, y: 1 });
-                    }
-                    if (key === 'ArrowRight') {
-                        turns.push({ x: 1, y: 0 });
-                    }
-                    if (key === 'ArrowLeft') {
-                        turns.push({ x: -1, y: 0 });
-                    }
+            input.pressed.forEach((action) => {
+                const turn = DIRECTIONS[action];
+                if (turn && turns.length < 3) {
+                    turns.push(turn);
                 }
             });
 
