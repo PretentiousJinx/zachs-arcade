@@ -1,22 +1,21 @@
-import { useEffect, useRef } from "react";
-import type { Game, Input } from '../games/types';
+import { useEffect, useRef } from 'react';
+import type { Game, Input, Action } from '../games/types';
 
 type GameCanvasProps = {
     createGame: () => Game;
-}
-
-const GAME_KEYS = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'];
+};
 
 function GameCanvas({ createGame }: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    useEffect (() => {
+    useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
         const game = createGame();
+        let phase = ['title', 'playing', 'paused', 'over'];
         canvas.width = game.width;
         canvas.height = game.height;
 
@@ -43,7 +42,9 @@ function GameCanvas({ createGame }: GameCanvasProps) {
             const dt = Math.min((now - lastTime) / 1000, 0.1);
             lastTime = now;
 
-            game.update(dt, input);
+            if (phase.has('playing')) {
+                game.update(dt, input);
+            }
             input.pressed.length = 0;
             game.draw(ctx);
 
