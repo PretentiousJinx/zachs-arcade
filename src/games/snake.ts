@@ -47,17 +47,12 @@ export function createSnake(): Game {
             }
         }
         const head = snake[0];
-        const newHead = { x: head.x + direction.x, y: head.y + direction.y};
-        const hitWall =
-            newHead.x < 0 ||
-            newHead.x >= COLS ||
-            newHead.y < 0 ||
-            newHead.y >= ROWS;
+        const newHead = { x: head.x + direction.x, y: head.y + direction.y };
+        const hitWall = newHead.x < 0 || newHead.x >= COLS || newHead.y < 0 || newHead.y >= ROWS;
 
-            const hitSelf = snake.some(
-                (cell) => sameCell(cell, newHead));
-        
-            if (hitWall || hitSelf) {
+        const hitSelf = snake.some((cell) => sameCell(cell, newHead));
+
+        if (hitWall || hitSelf) {
             alive = false;
             return;
         }
@@ -65,9 +60,12 @@ export function createSnake(): Game {
 
         if (sameCell(newHead, food)) {
             score += 1;
+            if (snake.length === COLS * ROWS) {
+                alive = false;
+                return;
+            }
             food = placeFood();
-        }
-        else {
+        } else {
             snake.pop();
         }
     }
@@ -75,24 +73,25 @@ export function createSnake(): Game {
     return {
         width: COLS * CELL,
         height: ROWS * CELL,
-    
+
         update(dt: number, input: Input) {
             if (!alive) return;
 
             input.pressed.forEach((key) => {
-                if (key === 'ArrowUp') {
-                    turns.push({ x: 0, y: -1});
+                if (turns.length < 3) {
+                    if (key === 'ArrowUp') {
+                        turns.push({ x: 0, y: -1 });
+                    }
+                    if (key === 'ArrowDown') {
+                        turns.push({ x: 0, y: 1 });
+                    }
+                    if (key === 'ArrowRight') {
+                        turns.push({ x: 1, y: 0 });
+                    }
+                    if (key === 'ArrowLeft') {
+                        turns.push({ x: -1, y: 0 });
+                    }
                 }
-                if (key === 'ArrowDown') {
-                    turns.push({ x: 0, y: 1});
-                }
-                if (key === 'ArrowRight') {
-                    turns.push({ x: 1, y: 0});
-                }
-                if (key === 'ArrowLeft') {
-                    turns.push({ x: -1, y: 0});
-                };
-
             });
 
             timer += dt;
@@ -103,20 +102,20 @@ export function createSnake(): Game {
         },
 
         draw(ctx: CanvasRenderingContext2D) {
-            ctx.fillStyle = "#0d0221";
+            ctx.fillStyle = '#0d0221';
             ctx.fillRect(0, 0, COLS * CELL, ROWS * CELL);
-            ctx.fillStyle = alive? "#ff2e97" : '#666666';
+            ctx.fillStyle = alive ? '#ff2e97' : '#666666';
             snake.forEach((cell) => {
                 ctx.fillRect(cell.x * CELL, cell.y * CELL, CELL - 1, CELL - 1);
-            })
+            });
 
-            ctx.fillStyle = "#3ef0ff";
-            ctx.fillRect(food.x * CELL, food.y * CELL, CELL - 1, CELL - 1 );
+            ctx.fillStyle = '#3ef0ff';
+            ctx.fillRect(food.x * CELL, food.y * CELL, CELL - 1, CELL - 1);
 
-            ctx.fillStyle = "#ffe14d";
+            ctx.fillStyle = '#ffe14d';
             ctx.font = '12px "Press Start 2P"';
             ctx.textBaseline = 'top';
-            ctx.fillText(`SCORE ${score}`, 8, 8)
+            ctx.fillText(`SCORE ${score}`, 8, 8);
         },
     };
 }
