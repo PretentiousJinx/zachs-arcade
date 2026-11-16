@@ -16,13 +16,10 @@ export function createSnake(): Game {
     let direction: Cell = { x: 1, y: 0 };
     let timer = 0;
     let alive = true;
-    const turns = Array(3);
+    const turns: Cell[] = [];
 
     function sameCell(a: Cell, b: Cell): boolean {
-        if (a.x === b.x && a.y === b.y) {
-            return false;
-        }
-        return true;
+        return a.x === b.x && a.y === b.y;
     }
 
     function placeFood(): Cell {
@@ -32,7 +29,7 @@ export function createSnake(): Game {
                 y: Math.floor(Math.random() * ROWS),
             };
             const onSnake = snake.some((cell) => sameCell(cell, spot));
-            if (onSnake) {
+            if (!onSnake) {
                 return spot;
             }
         }
@@ -60,7 +57,7 @@ export function createSnake(): Game {
             const hitSelf = snake.some(
                 (cell) => sameCell(cell, newHead));
         
-            if (hitWall || !hitSelf) {
+            if (hitWall || hitSelf) {
             alive = false;
             return;
         }
