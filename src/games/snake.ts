@@ -8,7 +8,7 @@ const STEP_TIME = 0.12;
 type Cell = { x: number; y: number };
 
 export function createSnake(): Game {
-    let snake: Cell[] = [
+    const snake: Cell[] = [
         { x: 10, y: 10 },
         { x: 9, y: 10 },
         { x: 8, y: 10 },
@@ -16,7 +16,14 @@ export function createSnake(): Game {
     let direction: Cell = { x: 1, y: 0 };
     let timer = 0;
     let alive = true;
-    let turns: Cell[] = [];
+    const turns = Array(3);
+
+    function sameCell(a: Cell, b: Cell): boolean {
+        if (a.x === b.x && a.y === b.y) {
+            return false;
+        }
+        return true;
+    }
 
     function placeFood(): Cell {
         while (true) {
@@ -24,8 +31,8 @@ export function createSnake(): Game {
                 x: Math.floor(Math.random() * COLS),
                 y: Math.floor(Math.random() * ROWS),
             };
-            const onSnake = snake.some((cell) => cell.x === spot.x && cell.y === spot.y);
-            if (!onSnake) {
+            const onSnake = snake.some((cell) => sameCell(cell, spot));
+            if (onSnake) {
                 return spot;
             }
         }
@@ -43,7 +50,7 @@ export function createSnake(): Game {
             }
         }
         const head = snake[0];
-        let newHead = { x: head.x + direction.x, y: head.y + direction.y};
+        const newHead = { x: head.x + direction.x, y: head.y + direction.y};
         const hitWall =
             newHead.x < 0 ||
             newHead.x >= COLS ||
@@ -51,15 +58,15 @@ export function createSnake(): Game {
             newHead.y >= ROWS;
 
             const hitSelf = snake.some(
-                (cell) => cell.x === newHead.x && cell.y === newHead.y);
+                (cell) => sameCell(cell, newHead));
         
-            if (hitWall || hitSelf) {
+            if (hitWall || !hitSelf) {
             alive = false;
             return;
         }
         snake.unshift(newHead);
 
-        if (newHead.x === food.x && newHead.y === food.y) {
+        if (sameCell(newHead, food)) {
             score += 1;
             food = placeFood();
         }
