@@ -9,9 +9,8 @@ export const KEY_MAP: Record<string, Action> = {
     KeyA: 'left',
     ArrowRight: 'right',
     KeyD: 'right',
-    KeySpace: 'start',
-    KeyEnter: 'start',
-    KeyEsc: 'select',
+    Space: 'a',
+    Enter: 'start',
     KeyP: 'select',
     KeyX: 'b',
     KeyZ: 'a',
@@ -19,14 +18,45 @@ export const KEY_MAP: Record<string, Action> = {
 
 export type InputStore = {
     state: Input;
-    pressed(action: Action): void;
-    released(action: Action): void;
+    press(action: Action): void;
+    release(action: Action): void;
     releaseAll(): void;
     endFrame(): void;
     subscribe(listener: () => void): () => void;
 };
 
-export function createInput() {
+export function attachKeyboard(input: InputStore): () => void {
+    const handleKeyDown = (event: KeyboardEvent) => {
+        const action = KEY_MAP[event.code];
+        if (!action) return; // not a recognized game key: let the browser have it
+        event.preventDefault(); // stop arrows and space from scrolling
+
+        input.press(action);
+    };
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+        const action = KEY_MAP[event.code];
+        if (!action) return;
+        input.release(action);
+    };
+
+    // release everything in case window losses focus while key is pressed
+    const handleBlur = () => {
+        input.releaseAll();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('keyup', handleKeyUp);
+        window.removeEventListener('blur', handleBlur);
+    };
+}
+
+export function createInput(): InputStore {
     const state: Input = { held: new Set(), pressed: [] };
     const listeners = new Set<() => void>();
 
@@ -49,7 +79,7 @@ export function createInput() {
             notify();
         },
 
-        releaseAll(action) {
+        releaseAll() {
             if (state.held.size === 0) return;
             state.held.clear();
             notify();

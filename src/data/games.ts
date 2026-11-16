@@ -4,8 +4,6 @@ export type Game = {
     inspiredBy: string;
     description: string;
     ready: boolean;
-    isOver(gameOver: boolean): void;
-    GetScore(score: number): void;
 };
 
 export const GAMES: Game[] = [
@@ -15,8 +13,6 @@ export const GAMES: Game[] = [
         inspiredBy: 'Snake',
         description: 'Eat the glowing pellets and grow without biting your own tail.',
         ready: true,
-        isOver() {},
-        GetScore() {},
     },
     {
         id: 'bricks',
@@ -24,8 +20,6 @@ export const GAMES: Game[] = [
         inspiredBy: 'Breakout',
         description: 'Bounce the ball and smash every brick in the wall.',
         ready: false,
-        isOver() {},
-        GetScore() {},
     },
     {
         id: 'stack',
@@ -33,8 +27,6 @@ export const GAMES: Game[] = [
         inspiredBy: 'Tetris',
         description: 'Fit the falling shapes together and clear full rows.',
         ready: false,
-        isOver() {},
-        GetScore() {},
     },
     {
         id: 'rocks',
@@ -42,8 +34,6 @@ export const GAMES: Game[] = [
         inspiredBy: 'Asteroids',
         description: 'Steer, thrust and blast drifting space rocks into pieces.',
         ready: false,
-        isOver() {},
-        GetScore() {},
     },
     {
         id: 'swarm',
@@ -51,8 +41,6 @@ export const GAMES: Game[] = [
         inspiredBy: 'Galaga',
         description: 'Hold off diving waves of alien bugs.',
         ready: false,
-        isOver() {},
-        GetScore() {},
     },
     {
         id: 'crossing',
@@ -60,8 +48,6 @@ export const GAMES: Game[] = [
         inspiredBy: 'Frogger',
         description: 'Dodge the traffic and make it safely across.',
         ready: false,
-        isOver() {},
-        GetScore() {},
     },
     {
         id: 'maze',
@@ -69,8 +55,6 @@ export const GAMES: Game[] = [
         inspiredBy: 'Pac-Man',
         description: 'Clear the maze of dots while staying one step ahead of the chasers.',
         ready: false,
-        isOver() {},
-        GetScore() {},
     },
     {
         id: 'dig',
@@ -78,7 +62,5 @@ export const GAMES: Game[] = [
         inspiredBy: 'Dig Dug',
         description: 'Tunnel underground and outsmart the creatures below.',
         ready: false,
-        isOver() {},
-        GetScore() {},
     },
 ];

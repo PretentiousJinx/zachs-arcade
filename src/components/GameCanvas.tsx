@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import type { Game, Input, Action } from '../games/types';
+import type { Game } from '../games/types';
+import { attachKeyboard, createInput } from '../engine/input';
 
 type GameCanvasProps = {
     createGame: () => Game;
@@ -15,25 +16,12 @@ function GameCanvas({ createGame }: GameCanvasProps) {
         if (!ctx) return;
 
         const game = createGame();
-        let phase = ['title', 'playing', 'paused', 'over'];
         canvas.width = game.width;
         canvas.height = game.height;
 
-        const input: Input = { held: new Set(), pressed: [] };
+        const input = createInput();
 
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (GAME_KEYS.includes(event.key)) {
-                event.preventDefault();
-            }
-            if (!event.repeat) {
-                input.pressed.push(event.key);
-            }
-            input.held.add(event.key);
-        };
-
-        const handleKeyUp = (event: KeyboardEvent) => {
-            input.held.delete(event.key);
-        };
+        const detach = attachKeyboard(input);
 
         let frameId = 0;
         let lastTime = performance.now();
@@ -41,24 +29,18 @@ function GameCanvas({ createGame }: GameCanvasProps) {
         const frame = (now: number) => {
             const dt = Math.min((now - lastTime) / 1000, 0.1);
             lastTime = now;
-
-            if (phase.has('playing')) {
-                game.update(dt, input);
-            }
-            input.pressed.length = 0;
+            game.update(dt, input.state);
+            input.endFrame();
             game.draw(ctx);
 
             frameId = requestAnimationFrame(frame);
         };
 
-        window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('keyup', handleKeyUp);
         frameId = requestAnimationFrame(frame);
 
         return () => {
             cancelAnimationFrame(frameId);
-            window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('keyup', handleKeyUp);
+            detach();
         };
     }, [createGame]);
 
