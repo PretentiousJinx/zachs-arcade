@@ -1,24 +1,22 @@
 @font-face {
-  font-family: "Press Start 2P";
-  src:
-  url('/fonts/press-start-2p.woff2')
-  format("woff2");
+  font-family: 'Press Start 2P';
+  src: url('/fonts/press-start-2p.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "VT323";
-  src:
-  url('/fonts/vt323.woff2')
-  format("woff2");
+  font-family: 'VT323';
+  src: url('/fonts/vt323.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -29,7 +27,6 @@
   --yellow: #ffe14a;
   --ink: #e8e6ff;
   --dark: #120624;
-
 }
 
 body {
@@ -42,7 +39,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: 
+  background-image:
     radial-gradient(ellipse at center, transparent 40%, rgba(5, 1, 13, 0.85) 100%),
     url('/carpet.svg');
   background-size: auto, 400px;
@@ -65,7 +62,9 @@ body {
   border: 5px solid var(--pink);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 0 20px var(--pink), -14px 14px 0 #10061f;
+  box-shadow:
+    0 0 20px var(--pink),
+    -14px 14px 0 #10061f;
 }
 
 .marquee {
@@ -144,7 +143,7 @@ body {
   align-items: stretch;
 }
 
-@supports select(::webkit-scrollbar) {
+@supports select(: : webkit-scrollbar) {
   .screen--content {
     scrollbar-width: auto;
     scrollbar-color: auto;
@@ -439,7 +438,7 @@ ul {
   display: flex;
   justify-content: center;
   gap: 24px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 .coin-door .slots .slot {
@@ -459,4 +458,17 @@ ul {
   background: #ff8a3d;
   border-radius: 2px;
   box-shadow: 0 0 8px #ff8a3d;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
 }

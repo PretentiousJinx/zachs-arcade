@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Game } from '../games/types';
 import { attachKeyboard, createInput } from '../engine/input';
 type Phase = 'title' | 'playing' | 'paused' | 'over';
@@ -36,6 +36,7 @@ function drawOverlay(
 
 function GameCanvas({ createGame, title }: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [status, setStatus] = useState('Press Start to play.');
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -51,13 +52,17 @@ function GameCanvas({ createGame, title }: GameCanvasProps) {
         function handleStart() {
             if (phase === 'title') {
                 phase = 'playing';
+                setStatus('playing');
             } else if (phase === 'playing') {
                 phase = 'paused';
+                setStatus('paused');
             } else if (phase === 'paused') {
                 phase = 'playing';
+                setStatus('playing');
             } else if (phase === 'over') {
                 game = createGame();
                 phase = 'playing';
+                setStatus('playing');
             }
         }
 
@@ -109,7 +114,14 @@ function GameCanvas({ createGame, title }: GameCanvasProps) {
         };
     }, [createGame, title]);
 
-    return <canvas ref={canvasRef} className="game-canvas" />;
+    return (
+        <>
+            <canvas ref={canvasRef} className="game-canvas" />
+            <p className="sr-only" role="status">
+                {status}
+            </p>
+        </>
+    );
 }
 
 export default GameCanvas;
