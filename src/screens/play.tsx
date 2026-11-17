@@ -1,7 +1,7 @@
 import ScreenFrame from '../components/ScreenFrame';
 import { GAMES } from '../data/games';
-import GameCanvas from '../components/GameCanvas';
 import { createSnake } from '../games/snake';
+import GameCabinet from '../components/GameCabinet';
 
 type PlayScreenProps = {
     gameId: string;
@@ -18,10 +18,6 @@ function PlayScreen({ gameId }: PlayScreenProps) {
         );
     }
 
-    return (
-        <ScreenFrame title={game.name} backHref="#/games">
-            <GameCanvas createGame={createSnake} title={game.name} />
-        </ScreenFrame>
-    );
+    return <GameCabinet title={game.name} createGame={createSnake} />;
 }
 export default PlayScreen;
