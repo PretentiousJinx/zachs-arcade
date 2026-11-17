@@ -5,9 +5,36 @@ type Phase = 'title' | 'playing' | 'paused' | 'over';
 
 type GameCanvasProps = {
     createGame: () => Game;
+    title: string;
 };
 
-function GameCanvas({ createGame }: GameCanvasProps) {
+const LINE_HEIGHT = 28;
+
+function drawOverlay(
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+    lines: string[],
+) {
+    ctx.save();
+
+    ctx.fillStyle = 'rgba(13, 2, 33, 0.75)';
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = '#ffe14d';
+    ctx.font = '16px "Press Start 2P"';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const top = height / 2 - ((lines.length - 1) * LINE_HEIGHT) / 2;
+    lines.forEach((line, i) => {
+        ctx.fillText(line, width / 2, top + i * LINE_HEIGHT);
+    });
+
+    ctx.restore();
+}
+
+function GameCanvas({ createGame, title }: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -60,6 +87,17 @@ function GameCanvas({ createGame }: GameCanvasProps) {
             input.endFrame();
             game.draw(ctx);
 
+            if (phase === 'title') {
+                drawOverlay(ctx, game.width, game.height, [title.toUpperCase(), 'PRESS START']);
+            } else if (phase === 'paused') {
+                drawOverlay(ctx, game.width, game.height, ['PAUSED']);
+            } else if (phase === 'over') {
+                drawOverlay(ctx, game.width, game.height, [
+                    'GAME OVER',
+                    `SCORE ${game.getScore()}`,
+                ]);
+            }
+
             frameId = requestAnimationFrame(frame);
         };
 
@@ -69,7 +107,7 @@ function GameCanvas({ createGame }: GameCanvasProps) {
             cancelAnimationFrame(frameId);
             detach();
         };
-    }, [createGame]);
+    }, [createGame, title]);
 
     return <canvas ref={canvasRef} className="game-canvas" />;
 }
