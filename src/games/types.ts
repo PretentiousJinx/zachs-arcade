@@ -1,4 +1,5 @@
 export type Action = 'up' | 'down' | 'left' | 'right' | 'a' | 'b' | 'start' | 'select';
+export type Phase = 'title' | 'playing' | 'paused' | 'over';
 
 export type Input = {
     held: Set<Action>; // keys currently held down
@@ -10,4 +11,6 @@ export type Game = {
     height: number;
     update(dt: number, input: Input): void;
     draw(ctx: CanvasRenderingContext2D): void;
+    isOver(): boolean;
+    getScore(): number;
 };

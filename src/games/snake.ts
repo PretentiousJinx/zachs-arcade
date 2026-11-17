@@ -4,14 +4,13 @@ const COLS = 20;
 const ROWS = 20;
 const CELL = 20;
 const STEP_TIME = 0.12;
+type Cell = { x: number; y: number };
 const DIRECTIONS: Partial<Record<Action, Cell>> = {
     up: { x: 0, y: -1 },
     down: { x: 0, y: 1 },
     left: { x: -1, y: 0 },
     right: { x: 1, y: 0 },
 };
-
-type Cell = { x: number; y: number };
 
 export function createSnake(): Game {
     const snake: Cell[] = [
@@ -20,8 +19,8 @@ export function createSnake(): Game {
         { x: 8, y: 10 },
     ];
     let timer = 0;
-    let direction = { x: 1, y: 0 };
     let alive = true;
+    let direction: Cell = { x: 1, y: 0 };
     const turns: Cell[] = [];
 
     function sameCell(a: Cell, b: Cell): boolean {
@@ -80,8 +79,16 @@ export function createSnake(): Game {
         width: COLS * CELL,
         height: ROWS * CELL,
 
+        isOver() {
+            return !alive;
+        },
+
+        getScore() {
+            return score;
+        },
+
         update(dt: number, input: Input) {
-            if (!alive) return;
+            if (this.isOver()) return;
 
             input.pressed.forEach((action) => {
                 const turn = DIRECTIONS[action];
