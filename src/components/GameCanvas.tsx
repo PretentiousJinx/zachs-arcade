@@ -86,6 +86,7 @@ function GameCanvas({ createGame, title }: GameCanvasProps) {
 
                 if (game.isOver()) {
                     phase = 'over';
+                    setStatus(`Game Over. Score: ${game.getScore()}. Press Start to play again`);
                 }
             }
 
