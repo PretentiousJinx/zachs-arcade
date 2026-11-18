@@ -180,7 +180,7 @@ body {
 .game-canvas {
   display: block;
   max-width: 100%;
-  max-height: max(240px, calc(100vh - 300px));
+  max-height: max(200px, calc(100vh - 300px));
   image-rendering: pixelated;
 }
 
@@ -503,26 +503,9 @@ button.btn:focus-visible {
 .screen--game {
   min-height: 0;
   padding: 6px;
-}
-
-.controls--game {
-  margin-top: 10px;
-  padding: 8px 16px;
-}
-
-.controls--game .joystick .lever .ball {
-  width: 28px;
-  height: 28px;
-}
-
-.controls--game .joystick .lever .stick {
-  width: 8px;
-  height: 24px;
-}
-
-.controls--game .joystick::after {
-  width: 48px;
-  height: 12px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .controls--game .buttons {
