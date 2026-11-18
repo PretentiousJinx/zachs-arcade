@@ -9,7 +9,7 @@ function ControlDeck() {
             </div>
             <div className="buttons">
                 <button type="button" className="btn pill">
-                    START SELECT
+                    START
                 </button>
                 <button type="button" className="btn pill">
                     SELECT
