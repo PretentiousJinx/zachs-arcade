@@ -15,7 +15,9 @@ function ScreenFrame({ title, children, action, backHref = '#/' }: ScreenFramePr
                 <h1>{title}</h1>
                 {children}
                 <div className="screen-footer">
-                    <a className="back" href={backHref}>Back</a>
+                    <a className="back" href={backHref}>
+                        Back
+                    </a>
                     {action}
                 </div>
             </div>

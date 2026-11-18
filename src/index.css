@@ -177,13 +177,8 @@ body {
   line-height: 1.4;
 }
 
-.screen--content:has(.game-canvas) {
-  max-height: none;
-}
-
 .game-canvas {
   display: block;
-  align-self: center;
   max-width: 100%;
   max-height: max(240px, calc(100vh - 300px));
   image-rendering: pixelated;
@@ -390,12 +385,35 @@ ul {
   gap: 16px;
 }
 
+button.btn {
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--dark);
+}
+
+button.btn:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 4px;
+}
+
 .btn {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   box-shadow: 0 6px 0 var(--side);
   cursor: pointer;
+}
+
+.btn.pill {
+  width: auto;
+  height: auto;
+  border-radius: 999px;
+  padding: 6px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  background-color: #b8b8c8;
+  --side: #3a3a4a;
 }
 
 .btn.yellow {
@@ -471,4 +489,68 @@ ul {
   clip-path: inset(50%);
   white-space: nowrap;
   border-width: 0;
+}
+
+.cabinet--game {
+  padding: 12px;
+}
+
+.cabinet--game .marquee {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.screen--game {
+  min-height: 0;
+  padding: 6px;
+}
+
+.controls--game {
+  margin-top: 10px;
+  padding: 8px 16px;
+}
+
+.controls--game .joystick .lever .ball {
+  width: 28px;
+  height: 28px;
+}
+
+.controls--game .joystick .lever .stick {
+  width: 8px;
+  height: 24px;
+}
+
+.controls--game .joystick::after {
+  width: 48px;
+  height: 12px;
+}
+
+.controls--game .buttons {
+  gap: 8px;
+  align-items: center;
+}
+
+.cabinet-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.cabinet-footer p {
+  margin: 0;
+  font-size: 16px;
+  text-align: right;
+}
+
+.cabinet-footer a.back {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+.cabinet-footer a.back:hover {
+  color: var(--yellow);
 }
