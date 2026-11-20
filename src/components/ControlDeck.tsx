@@ -33,10 +33,10 @@ function ControlDeck({ input }: ControlDeckProps) {
                 <button type="button" className="btn pill" {...buttonHandlers('select')}>
                     SELECT
                 </button>
-                <button type="button" className="btn pill" {...buttonHandlers('b')}>
+                <button type="button" className="btn pink" {...buttonHandlers('b')}>
                     B
                 </button>
-                <button type="button" className="btn pill" {...buttonHandlers('a')}>
+                <button type="button" className="btn cyan" {...buttonHandlers('a')}>
                     A
                 </button>
             </div>
