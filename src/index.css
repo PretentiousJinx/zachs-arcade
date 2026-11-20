@@ -537,3 +537,9 @@ button.btn:focus-visible {
 .cabinet-footer a.back:hover {
   color: var(--yellow);
 }
+
+.controls--game {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}

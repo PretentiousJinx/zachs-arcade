@@ -17,7 +17,7 @@ function GameCabinet({ title, createGame }: GameCabinetProps) {
             <div className="screen screen--game">
                 <GameCanvas createGame={createGame} title={title} input={input} />
             </div>
-            <ControlDeck />
+            <ControlDeck input={input} />
             <div className="cabinet-footer">
                 <a className="back" href="#/games">
                     Back
