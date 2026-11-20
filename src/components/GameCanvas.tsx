@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Game } from '../games/types';
-import { attachKeyboard, createInput } from '../engine/input';
+import { attachKeyboard, type InputStore } from '../engine/input';
+
 type Phase = 'title' | 'playing' | 'paused' | 'over';
 
 type GameCanvasProps = {
     createGame: () => Game;
     title: string;
+    input: InputStore;
 };
 
 const LINE_HEIGHT = 28;
@@ -34,7 +36,7 @@ function drawOverlay(
     ctx.restore();
 }
 
-function GameCanvas({ createGame, title }: GameCanvasProps) {
+function GameCanvas({ createGame, title, input }: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [status, setStatus] = useState('Press Start to play.');
 
@@ -65,8 +67,6 @@ function GameCanvas({ createGame, title }: GameCanvasProps) {
                 setStatus('playing');
             }
         }
-
-        const input = createInput();
 
         const detach = attachKeyboard(input);
 
@@ -113,7 +113,7 @@ function GameCanvas({ createGame, title }: GameCanvasProps) {
             cancelAnimationFrame(frameId);
             detach();
         };
-    }, [createGame, title]);
+    }, [createGame, title, input]);
 
     return (
         <>

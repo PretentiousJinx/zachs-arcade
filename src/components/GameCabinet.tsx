@@ -1,6 +1,8 @@
 import type { Game } from '../games/types';
 import GameCanvas from './GameCanvas';
 import ControlDeck from './ControlDeck';
+import { useState } from 'react';
+import { createInput } from '../engine/input';
 
 type GameCabinetProps = {
     title: string;
@@ -8,11 +10,12 @@ type GameCabinetProps = {
 };
 
 function GameCabinet({ title, createGame }: GameCabinetProps) {
+    const [input] = useState(createInput);
     return (
         <main className="cabinet cabinet--game">
             <div className="marquee">{title}</div>
             <div className="screen screen--game">
-                <GameCanvas createGame={createGame} title={title} />
+                <GameCanvas createGame={createGame} title={title} input={input} />
             </div>
             <ControlDeck />
             <div className="cabinet-footer">
