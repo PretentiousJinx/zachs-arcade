@@ -7,7 +7,6 @@ import PlayScreen from './screens/play';
 import { useState, useEffect } from 'react';
 
 function App() {
-
     const [hash, setHash] = useState(window.location.hash);
 
     useEffect(() => {
@@ -28,7 +27,7 @@ function App() {
             if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
                 return;
             }
-            
+
             if (event.key === 'Escape') {
                 window.location.hash = '#/';
             }
@@ -39,7 +38,6 @@ function App() {
         return () => {
             window.removeEventListener('keydown', handleEscape);
         };
-        
     }, []);
 
     if (hash === '#/home') {
@@ -64,6 +62,6 @@ function App() {
     }
 
     return <MenuScreen />;
-
 }
-export default App
+
+export default App;
