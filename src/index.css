@@ -433,7 +433,8 @@ button.btn:focus-visible {
   background: radial-gradient(circle at 35% 30%, #ffc2e1, var(--pink) 45%);
 }
 
-.btn:active {
+.btn:active,
+.btn.pressed {
   box-shadow: 0 2px 0 var(--side);
   transform: translateY(4px);
 }

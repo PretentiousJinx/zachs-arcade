@@ -32,8 +32,9 @@ function ControlDeck({ input }: ControlDeckProps) {
     }
 
     function pressed(action: Action) {
-        
+        return held.has(action) ? ' pressed' : '';
     }
+
     return (
         <div className="controls controls--game">
             <div className="joystick" aria-hidden="true">
@@ -48,16 +49,32 @@ function ControlDeck({ input }: ControlDeckProps) {
                 </div>
             </div>
             <div className="buttons">
-                <button type="button" className={`btn pill${pressed('start')}`} {...buttonHandlers('start')}>
+                <button
+                    type="button"
+                    className={`btn pill${pressed('start')}`}
+                    {...buttonHandlers('start')}
+                >
                     START
                 </button>
-                <button type="button" className="btn pill" {...buttonHandlers('select')}>
+                <button
+                    type="button"
+                    className={`btn pill${pressed('start')}`}
+                    {...buttonHandlers('select')}
+                >
                     SELECT
                 </button>
-                <button type="button" className="btn pink" {...buttonHandlers('b')}>
+                <button
+                    type="button"
+                    className={`btn pink${pressed('b')}`}
+                    {...buttonHandlers('b')}
+                >
                     B
                 </button>
-                <button type="button" className="btn cyan" {...buttonHandlers('a')}>
+                <button
+                    type="button"
+                    className={`btn pink${pressed('a')}`}
+                    {...buttonHandlers('a')}
+                >
                     A
                 </button>
             </div>
