@@ -58,7 +58,7 @@ function ControlDeck({ input }: ControlDeckProps) {
                 </button>
                 <button
                     type="button"
-                    className={`btn pill${pressed('start')}`}
+                    className={`btn pill${pressed('select')}`}
                     {...buttonHandlers('select')}
                 >
                     SELECT
