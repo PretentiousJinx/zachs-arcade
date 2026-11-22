@@ -72,7 +72,7 @@ function ControlDeck({ input }: ControlDeckProps) {
                 </button>
                 <button
                     type="button"
-                    className={`btn pink${pressed('a')}`}
+                    className={`btn cyan${pressed('a')}`}
                     {...buttonHandlers('a')}
                 >
                     A
