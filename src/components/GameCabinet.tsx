@@ -19,7 +19,12 @@ function GameCabinet({ title, createGame }: GameCabinetProps) {
         <main className="cabinet cabinet--game">
             <div className="marquee">{title}</div>
             <div className="screen screen--game">
-                <GameCanvas createGame={createGame} title={title} input={input} />
+                <GameCanvas
+                    createGame={createGame}
+                    title={title}
+                    input={input}
+                    onExit={exitToGames}
+                />
             </div>
             <ControlDeck input={input} />
             <div className="cabinet-footer">
