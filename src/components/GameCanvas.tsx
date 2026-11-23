@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Game } from '../games/types';
+import type { GameFactory } from '../games/types';
 import { attachKeyboard, type InputStore } from '../engine/input';
+import { playSound, unlockAudio } from '../engine/audio';
 
 type Phase = 'title' | 'playing' | 'paused' | 'over';
 
 type GameCanvasProps = {
-    createGame: () => Game;
+    createGame: GameFactory;
     onExit: () => void;
     title: string;
     input: InputStore;
@@ -47,7 +48,8 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        let game = createGame();
+        const env = { playSound };
+        let game = createGame(env);
         let phase: Phase = 'title';
         canvas.width = game.width;
         canvas.height = game.height;
@@ -69,13 +71,14 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
                 phase = 'playing';
                 setStatus('playing');
             } else if (phase === 'over') {
-                game = createGame();
+                game = createGame(env);
                 phase = 'playing';
                 setStatus('playing');
             }
         }
 
         const handleSystemKey = (event: KeyboardEvent) => {
+            unlockAudio();
             if (event.code !== 'Escape') return;
             event.preventDefault();
             if (event.repeat) return;
@@ -90,9 +93,12 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
             if (document.hidden) pause();
         };
 
+        const handlePointer = () => unlockAudio();
+
         const detach = attachKeyboard(input);
         window.addEventListener('keydown', handleSystemKey);
         document.addEventListener('visibilitychange', handleVisibility);
+        window.addEventListener('pointerdown', handlePointer);
 
         let frameId = 0;
         let lastTime = performance.now();
@@ -138,6 +144,7 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
             detach();
             window.removeEventListener('keydown', handleSystemKey);
             document.removeEventListener('visibilitychange', handleVisibility);
+            window.removeEventListener('pointerdown', handlePointer);
         };
     }, [createGame, title, input, onExit]);
 

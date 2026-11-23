@@ -1,5 +1,5 @@
 export type Action = 'up' | 'down' | 'left' | 'right' | 'a' | 'b' | 'start' | 'select';
-
+import type { SoundName } from '../engine/audio';
 export type Input = {
     held: Set<Action>; // keys currently held down
     pressed: Action[]; // keys pressed since last update in order
@@ -13,3 +13,8 @@ export type Game = {
     isOver(): boolean;
     getScore(): number;
 };
+
+export type GameEnv = {
+    playSound: (name: SoundName) => void;
+};
+export type GameFactory = (env: GameEnv) => Game;

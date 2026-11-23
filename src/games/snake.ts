@@ -1,4 +1,4 @@
-import type { Game, Input, Action } from './types';
+import type { Game, Input, Action, GameEnv } from './types';
 
 const COLS = 20;
 const ROWS = 20;
@@ -12,7 +12,7 @@ const DIRECTIONS: Partial<Record<Action, Cell>> = {
     right: { x: 1, y: 0 },
 };
 
-export function createSnake(): Game {
+export function createSnake(env: GameEnv): Game {
     const snake: Cell[] = [
         { x: 10, y: 10 },
         { x: 9, y: 10 },
@@ -59,12 +59,14 @@ export function createSnake(): Game {
 
         if (hitWall || hitSelf) {
             alive = false;
+            env.playSound('crash');
             return;
         }
         snake.unshift(newHead);
 
         if (sameCell(newHead, food)) {
             score += 1;
+            env.playSound('eat');
             if (snake.length === COLS * ROWS) {
                 alive = false;
                 return;

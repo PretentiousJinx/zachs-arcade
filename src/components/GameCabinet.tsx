@@ -1,4 +1,4 @@
-import type { Game } from '../games/types';
+import type { GameFactory } from '../games/types';
 import GameCanvas from './GameCanvas';
 import ControlDeck from './ControlDeck';
 import { useState } from 'react';
@@ -6,7 +6,7 @@ import { createInput } from '../engine/input';
 
 type GameCabinetProps = {
     title: string;
-    createGame: () => Game;
+    createGame: GameFactory;
 };
 
 function exitToGames() {
