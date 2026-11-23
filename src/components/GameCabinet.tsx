@@ -9,6 +9,10 @@ type GameCabinetProps = {
     createGame: () => Game;
 };
 
+function exitToGames() {
+    window.location.hash = '#/games';
+}
+
 function GameCabinet({ title, createGame }: GameCabinetProps) {
     const [input] = useState(createInput);
     return (

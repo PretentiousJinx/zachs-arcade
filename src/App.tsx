@@ -28,6 +28,11 @@ function App() {
                 return;
             }
 
+            // On a game screen, Escape belongs to the cabinet (pause, then exit).
+            if (event.defaultPrevented || window.location.hash.startsWith('#/games/')) {
+                return;
+            }
+
             if (event.key === 'Escape') {
                 window.location.hash = '#/';
             }

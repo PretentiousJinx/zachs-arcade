@@ -6,6 +6,7 @@ type Phase = 'title' | 'playing' | 'paused' | 'over';
 
 type GameCanvasProps = {
     createGame: () => Game;
+    onExit: () => void;
     title: string;
     input: InputStore;
 };
@@ -36,7 +37,7 @@ function drawOverlay(
     ctx.restore();
 }
 
-function GameCanvas({ createGame, title, input }: GameCanvasProps) {
+function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [status, setStatus] = useState('Press Start to play.');
 
@@ -51,13 +52,19 @@ function GameCanvas({ createGame, title, input }: GameCanvasProps) {
         canvas.width = game.width;
         canvas.height = game.height;
 
+        function pause() {
+            if (phase !== 'playing') return;
+            phase = 'paused';
+            setStatus('Paused. Press Start to resume.');
+            input.releaseAll();
+        }
+
         function handleStart() {
             if (phase === 'title') {
                 phase = 'playing';
                 setStatus('playing');
             } else if (phase === 'playing') {
-                phase = 'paused';
-                setStatus('paused');
+                pause();
             } else if (phase === 'paused') {
                 phase = 'playing';
                 setStatus('playing');
@@ -68,7 +75,24 @@ function GameCanvas({ createGame, title, input }: GameCanvasProps) {
             }
         }
 
+        const handleSystemKey = (event: KeyboardEvent) => {
+            if (event.code !== 'Escape') return;
+            event.preventDefault();
+            if (event.repeat) return;
+            if (phase === 'playing') {
+                pause();
+            } else {
+                onExit();
+            }
+        };
+
+        const handleVisibility = () => {
+            if (document.hidden) pause();
+        };
+
         const detach = attachKeyboard(input);
+        window.addEventListener('keydown', handleSystemKey);
+        document.addEventListener('visibilitychange', handleVisibility);
 
         let frameId = 0;
         let lastTime = performance.now();
@@ -112,8 +136,10 @@ function GameCanvas({ createGame, title, input }: GameCanvasProps) {
         return () => {
             cancelAnimationFrame(frameId);
             detach();
+            window.removeEventListener('keydown', handleSystemKey);
+            document.removeEventListener('visibilitychange', handleVisibility);
         };
-    }, [createGame, title, input]);
+    }, [createGame, title, input, onExit]);
 
     return (
         <>
