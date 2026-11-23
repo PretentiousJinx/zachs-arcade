@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { GameFactory } from '../games/types';
 import { attachKeyboard, type InputStore } from '../engine/input';
-import { playSound, unlockAudio } from '../engine/audio';
+import { isMuted, playSound, toggleMuted, unlockAudio } from '../engine/audio';
 
 type Phase = 'title' | 'playing' | 'paused' | 'over';
 
@@ -58,23 +58,25 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
             if (phase !== 'playing') return;
             phase = 'paused';
             setStatus('Paused. Press Start to resume.');
+            playSound('pause');
             input.releaseAll();
         }
 
         function handleStart() {
-            if (phase === 'title') {
-                phase = 'playing';
-                setStatus('playing');
-            } else if (phase === 'playing') {
+            if (phase === 'playing') {
                 pause();
-            } else if (phase === 'paused') {
-                phase = 'playing';
-                setStatus('playing');
-            } else if (phase === 'over') {
-                game = createGame(env);
-                phase = 'playing';
-                setStatus('playing');
+                return;
             }
+            if (phase === 'paused') {
+                playSound('resume');
+            } else {
+                if (phase === 'over') {
+                    game = createGame(env);
+                }
+                playSound('start');
+            }
+            phase = 'playing';
+            setStatus('Playing.');
         }
 
         const handleSystemKey = (event: KeyboardEvent) => {
@@ -107,8 +109,12 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
             const dt = Math.min((now - lastTime) / 1000, 0.1);
             lastTime = now;
 
-            if (input.state.pressed.includes('start')) {
-                handleStart();
+            for (const action of input.state.pressed) {
+                if (action === 'start') {
+                    handleStart();
+                } else if (action === 'select') {
+                    setStatus(toggleMuted() ? 'Sound off.' : 'Sound on.');
+                }
             }
 
             if (phase === 'playing') {
@@ -116,6 +122,7 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
 
                 if (game.isOver()) {
                     phase = 'over';
+                    playSound('gameover');
                     setStatus(`Game Over. Score: ${game.getScore()}. Press Start to play again`);
                 }
             }
@@ -132,6 +139,16 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
                     'GAME OVER',
                     `SCORE ${game.getScore()}`,
                 ]);
+            }
+
+            if (isMuted()) {
+                ctx.save();
+                ctx.fillStyle = '#e8e6ff';
+                ctx.font = '8px "Press Start 2P", monospace';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'top';
+                ctx.fillText('SOUND OFF', game.width - 8, 10);
+                ctx.restore();
             }
 
             frameId = requestAnimationFrame(frame);
