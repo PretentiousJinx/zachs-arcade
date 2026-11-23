@@ -7,13 +7,14 @@ import { createInput } from '../engine/input';
 type GameCabinetProps = {
     title: string;
     createGame: GameFactory;
+    gameId: string;
 };
 
 function exitToGames() {
     window.location.hash = '#/games';
 }
 
-function GameCabinet({ title, createGame }: GameCabinetProps) {
+function GameCabinet({ title, createGame, gameId }: GameCabinetProps) {
     const [input] = useState(createInput);
     return (
         <main className="cabinet cabinet--game">
@@ -21,6 +22,7 @@ function GameCabinet({ title, createGame }: GameCabinetProps) {
             <div className="screen screen--game">
                 <GameCanvas
                     createGame={createGame}
+                    gameId={gameId}
                     title={title}
                     input={input}
                     onExit={exitToGames}

@@ -18,6 +18,6 @@ function PlayScreen({ gameId }: PlayScreenProps) {
         );
     }
 
-    return <GameCabinet title={game.name} createGame={createSnake} />;
+    return <GameCabinet title={game.name} gameId={game.id} createGame={createSnake} />;
 }
 export default PlayScreen;

@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import type { GameFactory } from '../games/types';
 import { attachKeyboard, type InputStore } from '../engine/input';
 import { isMuted, playSound, toggleMuted, unlockAudio } from '../engine/audio';
+import { loadScores, saveScore } from '../engine/scores';
 
 type Phase = 'title' | 'playing' | 'paused' | 'over';
 
 type GameCanvasProps = {
     createGame: GameFactory;
+    gameId: string;
     onExit: () => void;
     title: string;
     input: InputStore;
@@ -38,7 +40,7 @@ function drawOverlay(
     ctx.restore();
 }
 
-function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
+function GameCanvas({ createGame, gameId, title, input, onExit }: GameCanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [status, setStatus] = useState('Press Start to play.');
 
@@ -51,6 +53,8 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
         const env = { playSound };
         let game = createGame(env);
         let phase: Phase = 'title';
+        let best = loadScores(gameId)[0] ?? 0;
+        let rank: number | null = null;
         canvas.width = game.width;
         canvas.height = game.height;
 
@@ -77,6 +81,21 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
             }
             phase = 'playing';
             setStatus('Playing.');
+        }
+
+        function handleGameOver() {
+            phase = 'over';
+            const score = game.getScore();
+            const result = saveScore(gameId, score);
+            rank = result.rank;
+            best = result.scores[0] ?? 0;
+            if (rank === 1) {
+                playSound('highscore');
+                setStatus(`New high score: ${score}! Press Start to play again.`);
+            } else {
+                playSound('gameover');
+                setStatus(`Game Over. Score: ${score}. Press Start to play again`);
+            }
         }
 
         const handleSystemKey = (event: KeyboardEvent) => {
@@ -121,9 +140,7 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
                 game.update(dt, input.state);
 
                 if (game.isOver()) {
-                    phase = 'over';
-                    playSound('gameover');
-                    setStatus(`Game Over. Score: ${game.getScore()}. Press Start to play again`);
+                    handleGameOver();
                 }
             }
 
@@ -131,13 +148,18 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
             game.draw(ctx);
 
             if (phase === 'title') {
-                drawOverlay(ctx, game.width, game.height, [title.toUpperCase(), 'PRESS START']);
+                drawOverlay(ctx, game.width, game.height, [
+                    title.toUpperCase(),
+                    'PRESS START',
+                    `BEST ${best}`,
+                ]);
             } else if (phase === 'paused') {
                 drawOverlay(ctx, game.width, game.height, ['PAUSED']);
             } else if (phase === 'over') {
                 drawOverlay(ctx, game.width, game.height, [
                     'GAME OVER',
                     `SCORE ${game.getScore()}`,
+                    rank === 1 ? 'NEW HIGH SCORE!' : `BEST ${best}`,
                 ]);
             }
 
@@ -163,7 +185,7 @@ function GameCanvas({ createGame, title, input, onExit }: GameCanvasProps) {
             document.removeEventListener('visibilitychange', handleVisibility);
             window.removeEventListener('pointerdown', handlePointer);
         };
-    }, [createGame, title, input, onExit]);
+    }, [createGame, gameId, title, input, onExit]);
 
     return (
         <>

@@ -34,7 +34,7 @@ export function saveScore(gameId: string, score: number, storage?: ScoreStorage)
     }
 
     const scores = [...before, score].sort((a, b) => b - a).slice(0, MAX_SCORES);
-    const index = scores.indexOf(score);
+    const index = scores.lastIndexOf(score);
     const rank = index === -1 ? null : index + 1;
 
     try {
