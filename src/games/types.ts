@@ -15,6 +15,7 @@ export type Game = {
 };
 
 export type GameEnv = {
+    random: () => number;
     playSound: (name: SoundName) => void;
 };
 export type GameFactory = (env: GameEnv) => Game;

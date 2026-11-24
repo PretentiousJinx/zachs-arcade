@@ -50,7 +50,7 @@ function GameCanvas({ createGame, gameId, title, input, onExit }: GameCanvasProp
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const env = { playSound };
+        const env = { random: Math.random, playSound };
         let game = createGame(env);
         let phase: Phase = 'title';
         let best = loadScores(gameId)[0] ?? 0;

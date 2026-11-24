@@ -1,9 +1,9 @@
 import type { Game, Input, Action, GameEnv } from './types';
 
-const COLS = 20;
-const ROWS = 20;
+export const COLS = 20;
+export const ROWS = 20;
 const CELL = 20;
-const STEP_TIME = 0.12;
+export const START_STEP_TIME = 0.12;
 type Cell = { x: number; y: number };
 const DIRECTIONS: Partial<Record<Action, Cell>> = {
     up: { x: 0, y: -1 },
@@ -30,8 +30,8 @@ export function createSnake(env: GameEnv): Game {
     function placeFood(): Cell {
         while (true) {
             const spot = {
-                x: Math.floor(Math.random() * COLS),
-                y: Math.floor(Math.random() * ROWS),
+                x: Math.floor(env.random() * COLS),
+                y: Math.floor(env.random() * ROWS),
             };
             const onSnake = snake.some((cell) => sameCell(cell, spot));
             if (!onSnake) {
@@ -100,8 +100,8 @@ export function createSnake(env: GameEnv): Game {
             });
 
             timer += dt;
-            while (timer >= STEP_TIME) {
-                timer -= STEP_TIME;
+            while (timer >= START_STEP_TIME) {
+                timer -= START_STEP_TIME;
                 step();
             }
         },
