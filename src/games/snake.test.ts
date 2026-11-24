@@ -90,4 +90,34 @@ describe('Data Wyrm', () => {
         expect(game.isOver()).toBe(true);
         expect(game.getScore()).toBe(score);
     });
+
+    it('ignores a fourth queued turn', () => {
+        // Food at column 9, row 7: only reachable if the fourth turn (left) is kept.
+        const { game, step } = setup([column(9), row(7), 0, 0]);
+        // Four turns pressed before one move. The queue holds three, so 'left' is dropped.
+        step(['up', 'up', 'up', 'left']);
+        step();
+        step();
+        step();
+        // Kept: up, up, up. The head goes (10, 9), (10, 8), (10, 7), (10, 6) and misses the food.
+        // If 'left' were kept, the fourth move would land on (9, 7) and score.
+        expect(game.getScore()).toBe(0);
+        expect(game.isOver()).toBe(false);
+    });
+
+    it('survives turning down and moving twice', () => {
+        const { game, step } = setup();
+
+        step(['down']);
+        step();
+        expect(game.isOver()).toBe(false);
+    });
+
+    it('plays the crash sound only once', () => {
+        const { playSound, step } = setup();
+        for (let i = 0; i < COLS + 5; i++) {
+            step();
+        }
+        expect(playSound).toHaveBeenCalledTimes(1);
+    });
 });
