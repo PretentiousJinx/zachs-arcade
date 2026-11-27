@@ -3,6 +3,7 @@ import type { GameFactory } from '../games/types';
 import { attachKeyboard, type InputStore } from '../engine/input';
 import { isMuted, playSound, toggleMuted, unlockAudio } from '../engine/audio';
 import { loadScores, saveScore } from '../engine/scores';
+import { readTheme } from '../engine/theme';
 
 type Phase = 'title' | 'playing' | 'paused' | 'over';
 
@@ -50,7 +51,7 @@ function GameCanvas({ createGame, gameId, title, input, onExit }: GameCanvasProp
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const env = { random: Math.random, playSound };
+        const env = { random: Math.random, playSound, theme: readTheme() };
         let game = createGame(env);
         let phase: Phase = 'title';
         let best = loadScores(gameId)[0] ?? 0;

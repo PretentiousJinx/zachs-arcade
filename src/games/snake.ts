@@ -107,17 +107,17 @@ export function createSnake(env: GameEnv): Game {
         },
 
         draw(ctx: CanvasRenderingContext2D) {
-            ctx.fillStyle = '#0d0221';
+            ctx.fillStyle = env.theme.dark;
             ctx.fillRect(0, 0, COLS * CELL, ROWS * CELL);
-            ctx.fillStyle = alive ? '#ff2e97' : '#666666';
+            ctx.fillStyle = alive ? env.theme.pink : '#666666';
             snake.forEach((cell) => {
                 ctx.fillRect(cell.x * CELL, cell.y * CELL, CELL - 1, CELL - 1);
             });
 
-            ctx.fillStyle = '#3ef0ff';
+            ctx.fillStyle = env.theme.cyan;
             ctx.fillRect(food.x * CELL, food.y * CELL, CELL - 1, CELL - 1);
 
-            ctx.fillStyle = '#ffe14d';
+            ctx.fillStyle = env.theme.yellow;
             ctx.font = '12px "Press Start 2P"';
             ctx.textBaseline = 'top';
             ctx.fillText(`SCORE ${score}`, 8, 8);

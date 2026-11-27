@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { COLS, ROWS, createSnake, START_STEP_TIME } from './snake';
 import type { Action, GameEnv, Input } from './types';
-
+import { DEFAULT_THEME } from '../engine/theme';
 // The random number that makes placeFood pick a given column or row.
 const column = (x: number) => (x + 0.5) / COLS;
 const row = (y: number) => (y + 0.5) / ROWS;
@@ -14,6 +14,7 @@ function setup(randoms: number[] = [0, 0]) {
     const env: GameEnv = {
         random: () => randoms[next++ % randoms.length],
         playSound,
+        theme: DEFAULT_THEME,
     };
     const game = createSnake(env);
 
