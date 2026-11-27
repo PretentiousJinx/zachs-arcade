@@ -4,6 +4,8 @@ export const COLS = 20;
 export const ROWS = 20;
 const CELL = 20;
 export const START_STEP_TIME = 0.12;
+const MIN_STEP_TIME = 0.06;
+const SPEED_UP = 0.003;
 const GLOW = 20; // how far the neon glow spreads, in pixels
 type Cell = { x: number; y: number };
 const DIRECTIONS: Partial<Record<Action, Cell>> = {
@@ -43,6 +45,10 @@ export function createSnake(env: GameEnv): Game {
 
     let food = placeFood();
     let score = 0;
+
+    function stepTime(): number {
+        return Math.max(MIN_STEP_TIME, START_STEP_TIME - score * SPEED_UP);
+    }
 
     function step() {
         const next = turns.shift();
@@ -101,8 +107,8 @@ export function createSnake(env: GameEnv): Game {
             });
 
             timer += dt;
-            while (timer >= START_STEP_TIME) {
-                timer -= START_STEP_TIME;
+            while (timer >= stepTime()) {
+                timer -= stepTime();
                 step();
             }
         },
