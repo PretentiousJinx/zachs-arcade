@@ -6,6 +6,11 @@ const CELL = 20;
 export const START_STEP_TIME = 0.12;
 const MIN_STEP_TIME = 0.06;
 const SPEED_UP = 0.003;
+const FLUX_START_SCORE = 10;
+const MAX_INSET = 4;
+const FLUX_START_SPEED = 0.3;
+const FLUX_SPEED_UP = 0.05;
+const FLUX_MAX_SPEED = 1.5;
 const GLOW = 20; // how far the neon glow spreads, in pixels
 type Cell = { x: number; y: number };
 const DIRECTIONS: Partial<Record<Action, Cell>> = {
@@ -45,9 +50,20 @@ export function createSnake(env: GameEnv): Game {
 
     let food = placeFood();
     let score = 0;
+    let fluxPhase = 0;
 
     function stepTime(): number {
         return Math.max(MIN_STEP_TIME, START_STEP_TIME - score * SPEED_UP);
+    }
+
+    function fluxSpeed(): number {
+        if (score < FLUX_START_SCORE) return 0;
+        const extra = (score - FLUX_START_SCORE) * FLUX_SPEED_UP;
+        return Math.min(FLUX_MAX_SPEED, FLUX_START_SPEED + extra);
+    }
+
+    function inset(): number {
+        return Math.round((MAX_INSET * (1 - Math.cos(fluxPhase))) / 2);
     }
 
     function step() {
@@ -106,6 +122,8 @@ export function createSnake(env: GameEnv): Game {
                 }
             });
 
+            fluxPhase += dt * fluxSpeed();
+
             timer += dt;
             while (timer >= stepTime()) {
                 timer -= stepTime();
@@ -117,7 +135,19 @@ export function createSnake(env: GameEnv): Game {
             ctx.fillStyle = env.theme.dark;
             ctx.fillRect(0, 0, COLS * CELL, ROWS * CELL);
 
-            // Glow: everything drawn between save() and restore() gets a soft halo.
+            const wall = inset();
+            if (wall > 0) {
+                ctx.save();
+                ctx.globalAlpha = 0.3;
+                ctx.fillStyle = env.theme.cyan;
+                ctx.fillRect(0, 0, COLS * CELL, ROWS * CELL);
+                ctx.restore();
+
+                ctx.fillStyle = env.theme.dark;
+                const edge = wall * CELL;
+                ctx.fillRect(edge, edge, (COLS - 2 * wall) * CELL, (ROWS - 2 * wall) * CELL);
+            }
+
             ctx.save();
             ctx.shadowBlur = GLOW;
 
