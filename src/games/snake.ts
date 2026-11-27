@@ -4,6 +4,7 @@ export const COLS = 20;
 export const ROWS = 20;
 const CELL = 20;
 export const START_STEP_TIME = 0.12;
+const GLOW = 20; // how far the neon glow spreads, in pixels
 type Cell = { x: number; y: number };
 const DIRECTIONS: Partial<Record<Action, Cell>> = {
     up: { x: 0, y: -1 },
@@ -109,13 +110,23 @@ export function createSnake(env: GameEnv): Game {
         draw(ctx: CanvasRenderingContext2D) {
             ctx.fillStyle = env.theme.dark;
             ctx.fillRect(0, 0, COLS * CELL, ROWS * CELL);
-            ctx.fillStyle = alive ? env.theme.pink : '#666666';
+
+            // Glow: everything drawn between save() and restore() gets a soft halo.
+            ctx.save();
+            ctx.shadowBlur = GLOW;
+
+            const wyrmColor = alive ? env.theme.pink : '#666666';
+            ctx.fillStyle = wyrmColor;
+            ctx.shadowColor = wyrmColor;
             snake.forEach((cell) => {
                 ctx.fillRect(cell.x * CELL, cell.y * CELL, CELL - 1, CELL - 1);
             });
 
             ctx.fillStyle = env.theme.cyan;
+            ctx.shadowColor = env.theme.cyan;
             ctx.fillRect(food.x * CELL, food.y * CELL, CELL - 1, CELL - 1);
+
+            ctx.restore();
 
             ctx.fillStyle = env.theme.yellow;
             ctx.font = '12px "Press Start 2P"';
